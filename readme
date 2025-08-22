@@ -1,20 +1,20 @@
------------- THIS PROJECT ---------------
+COIN COLLECTOR.
 
-    PROJECT VERSION: 0.1
-    THIS PROEJCT IS OPEN SOURCE, YOU CAN
-    MAKE THIS AS A ZOMBIE GAME OR MODIFY
+> PROEJCT V0.1
+    THIS PROEJCT IS OPEN SOURCE, YOU CAN FEEL FREE TO MODIFY IT
 
-------------------------------------------
+> MADE WITH
+    SDL2 - for the GAME
+    SDL2 TTF - for the FONT
+    gcc - c compiler
+    c - for PERFORMANCE
 
-------------- SDL2 & C ------------------
-    THIS WAS MADE IN C FOR BEST PERFORMANCE
-    -> HEADERS
-        SDL2
-        SDL2 TTF
------------------------------------------
-
------------------ BUILD ------------------
-    gcc main.c -o main.exe -lSDL2 lSDL2_ttf
-    ./main.exe
-
-------------------------------------------
+> INSTRUCTIONS
+    - THIS WAS MADE IN LINUX -
+        SO YOU'LL NEED SDL2.dll IN THE SAME FOLDER AS THE EXE LIVES
+    
+    - LINUX -
+        gcc main.c -o main.exe -lSDL2 -lSDL2_ttf
+    
+    - WINDOWS -
+        gcc main.c -o main.exe -I<where sdl include is> -L<where sdl lib is> -lSDL2 -lSDL2_ttf
