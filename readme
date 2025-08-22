@@ -1,0 +1,14 @@
+------------ THIS PROJECT ---------------
+
+    PROJECT VERSION: 0.1
+    THIS PROEJCT IS OPEN SOURCE, YOU CAN
+    MAKE THIS AS A ZOMBIE GAME OR MODIFY
+
+------------------------------------------
+
+------------- SDL2 & C ------------------
+    THIS WAS MADE IN C FOR BEST PERFORMANCE
+    -> HEADERS
+        SDL2
+        SDL2 TTF
+-----------------------------------------
