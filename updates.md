@@ -2,5 +2,6 @@
     remodeled main.c to make things cleaner
     fixed some bugs
 
-    - 0.3.1
-        fixed 1 memory leak 
+    - 0.4
+        added stuff
+        + performance
