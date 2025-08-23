@@ -3,6 +3,8 @@
         "stdio.h": "c",
         "sdl.h": "c",
         "sdl_ttf.h": "c",
-        "stdarg.h": "c"
+        "stdarg.h": "c",
+        "game.h": "c",
+        "stdbool.h": "c"
     }
 }
