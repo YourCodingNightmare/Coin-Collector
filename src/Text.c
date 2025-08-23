@@ -1,14 +1,15 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include "Text.h"
+
+SDL_Color dfcol = {255, 255, 255, 255};
+
 void Text_Init(SDL_Renderer* renderer, TTF_Font *font, Text *t, const char *format, ...){
     char tbuffer[1024];
     va_list args;
     va_start(args, format);
     vsnprintf(tbuffer, sizeof(tbuffer), format, args);
     va_end(args);
-
-    SDL_Color dfcol = {255, 255, 255, 255};
 
     SDL_Surface *surface = TTF_RenderText_Solid(font, tbuffer, dfcol);
     if (!surface){
@@ -36,6 +37,21 @@ void Text_Draw(SDL_Renderer* renderer, Text *t, int dx, int dy){
     SDL_RenderCopy(renderer, t->texture, NULL, &t->dest);
 }
 
+void Text_Modify(SDL_Renderer* renderer, TTF_Font* font, Text *t, const char *format, ...){
+    if (t->texture) SDL_DestroyTexture(t->texture);
+    char tbuffer[1024];
+    va_list args;
+    va_start(args, format);
+    vsnprintf(tbuffer, sizeof(tbuffer), format, args);
+    va_end(args);
+
+    SDL_Surface *surface = TTF_RenderText_Solid(font, tbuffer, dfcol);
+    t->texture = SDL_CreateTextureFromSurface(renderer, surface);
+    t->dest.w = surface->w;
+    t->dest.h = surface->h;
+
+    SDL_FreeSurface(surface);
+}
 void Text_DestroyTexture(Text *t){
     SDL_DestroyTexture(t->texture);
     t->texture = NULL;
