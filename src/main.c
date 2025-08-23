@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "Entity.h"
+#include "Text.h"
 
 int main(int argc, char* argv[]){
     if (SDL_Init(SDL_INIT_VIDEO) < 0){
@@ -33,7 +35,7 @@ int main(int argc, char* argv[]){
         return 1;
     }
 
-    TTF_Font* main_font = TTF_OpenFont("font/PressStart2P-Regular.ttf", 20);
+    TTF_Font* main_font = TTF_OpenFont("assets/font/PressStart2P-Regular.ttf", 20);
     if (!main_font){
         printf("\033[31mTTF ERROR: %s\033[0m\n", TTF_GetError());
         SDL_DestroyWindow(window);
@@ -44,12 +46,14 @@ int main(int argc, char* argv[]){
     }
 
     srand(time(NULL));
-    SDL_Rect player = {320, 240, 20, 20};
-    SDL_Rect coin = {rand() % (640-20), rand() % (480-20), 20, 20};
+
+    Entity Player;
+    Entity_Init(&Player, 320, 240, 20, 20);
+
+    Entity Coin;
+    Entity_Init(&Coin, rand() % (640-20), rand() % (480-20), 20, 20);
 
     int score = 0;
-
-    SDL_Color white = {255, 255, 255, 255};
 
     int isRunning = 1;
     SDL_Event event;
@@ -59,37 +63,24 @@ int main(int argc, char* argv[]){
                 isRunning = 0;
             }
         }
-        const Uint8* keyboard = SDL_GetKeyboardState(NULL);
-        if (keyboard[SDL_SCANCODE_W] && player.y > 0)player.y -= 5;
-        if (keyboard[SDL_SCANCODE_S] &&  player.y + player.h < 480) player.y += 5;
-        if (keyboard[SDL_SCANCODE_A] && player.x > 0) player.x -= 5;
-        if (keyboard[SDL_SCANCODE_D] && player.x + player.w < 640) player.x += 5;
-
-        if (SDL_HasIntersection(&player, &coin)){
+        Entity_MoveBy_UIN(&Player, 5, 640, 480);
+        
+        if (SDL_HasIntersection(&Player.body, &Coin.body)){
             score++;
-            coin.x = rand() % (640-20);
-            coin.y = rand() % (480-20);
+            Coin.body.x = rand() % (640-20);
+            Coin.body.y = rand() % (480-20);
         }
+        
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-        SDL_RenderFillRect(renderer, &player);
+        Entity_Draw(renderer, &Player, 0, 255, 0);
+        Entity_Draw(renderer, &Coin, 255, 255, 0);
 
-        SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
-        SDL_RenderFillRect(renderer, &coin);
         
-        char TextBuffer[64];
-        sprintf(TextBuffer, "Score: %d", score);
-
-        SDL_Surface* textSurface = TTF_RenderText_Solid(main_font, TextBuffer, white);
-        SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-
-        SDL_Rect textdest = {10, 10, textSurface->w, textSurface->h};
-        SDL_RenderCopy(renderer, textTexture, NULL, &textdest);
-
-        SDL_FreeSurface(textSurface);
-        SDL_DestroyTexture(textTexture);
+        Text Tscore;
+        Text_Init(renderer, main_font, &Tscore, "Score: %d", score);
+        Text_Draw(renderer, &Tscore, 10, 10);
 
         SDL_RenderPresent(renderer);
         SDL_Delay(16);

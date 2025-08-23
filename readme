@@ -1,6 +1,6 @@
 COIN COLLECTOR.
 
-> PROEJCT V0.1
+> PROEJCT V0.2
     THIS PROEJCT IS OPEN SOURCE, YOU CAN FEEL FREE TO MODIFY IT
     
     !FONT LICENSE -font/OFL.txt
@@ -14,9 +14,12 @@ COIN COLLECTOR.
 > INSTRUCTIONS
     - THIS WAS MADE IN LINUX -
         SO YOU'LL NEED SDL2.dll IN THE SAME FOLDER AS THE EXE LIVES
-    
+    - RUN -
+        'make run'
+    - MODIFY THE MAKEFILE -
+
     - LINUX -
-        gcc main.c -o main.exe -lSDL2 -lSDL2_ttf
+        gcc src/main.c src/Entity.c src/Text.c -Iinc -o bin/app.exe -lSDL2 -lSDL2_ttf
     
     - WINDOWS -
-        gcc main.c -o main.exe -I<where sdl include is> -L<where sdl lib is> -lSDL2 -lSDL2_ttf
+        gcc src/main.c src/Entity.c src/Text.c -Iinc -o bin/app.exe -I<where sdl2 include> -L<where SDL2 lib> -lSDL2 -lSDL2_ttf
