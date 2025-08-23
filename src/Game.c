@@ -14,7 +14,7 @@ TTF_Font* main_font = NULL;
 Entity player;
 Entity coin;
 int coins;
-Text scoretext;
+Text CoinsStat;
 
 bool Game_Init(){
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -59,7 +59,7 @@ bool Game_Init(){
     Entity_Init(&coin, rand() % (640-20), rand() % (480-20), 20, 20);
 
     coins = 0;
-    Text_Init(renderer, main_font, &scoretext, "Score: %d", coins);
+    Text_Init(renderer, main_font, &CoinsStat, "Coins: %d", coins);
     
     isRunning = true;
     return true;
@@ -73,7 +73,7 @@ void Game_Run(){
     }
 }
 void Game_End(){
-    Text_DestroyTexture(&scoretext);
+    Text_DestroyTexture(&CoinsStat);
     TTF_CloseFont(main_font);
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
@@ -95,8 +95,7 @@ void Game_Update(){
         coin.body.x = rand() % (640-20);
         coin.body.y = rand() % (480-20);
 
-        Text_DestroyTexture(&scoretext);
-        Text_Init(renderer, main_font, &scoretext, "Score: %d", coins);
+        Text_Modify(renderer, main_font, &CoinsStat, "Coins: %d", coins);
     }
     
 }
@@ -106,6 +105,6 @@ void Game_Render(){
 
     Entity_Draw(renderer, &player, 0, 255, 0);
     Entity_Draw(renderer, &coin, 255, 255, 0);
-    Text_Draw(renderer, &scoretext, 10, 10);
+    Text_Draw(renderer, &CoinsStat, 10, 10);
     SDL_RenderPresent(renderer);
 }

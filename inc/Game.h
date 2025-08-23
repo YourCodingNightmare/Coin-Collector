@@ -12,7 +12,7 @@ extern TTF_Font* main_font;
 extern Entity player;
 extern Entity coin;
 extern int coins;
-extern Text scoretext;
+extern Text CoinsStat;
 bool Game_Init();
 void Game_Run();
 void Game_End();
