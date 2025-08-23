@@ -15,6 +15,7 @@ Entity player;
 Entity coin;
 int coins;
 Text scoretext;
+
 bool Game_Init(){
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("SDL GAME INIT ERROR: %s\n", SDL_GetError());
@@ -57,8 +58,9 @@ bool Game_Init(){
     Entity_Init(&player, 320, 240, 20, 20);
     Entity_Init(&coin, rand() % (640-20), rand() % (480-20), 20, 20);
 
-    Text_Init(renderer, main_font, &scoretext, "Score: %d", coins);
     coins = 0;
+    Text_Init(renderer, main_font, &scoretext, "Score: %d", coins);
+    
     isRunning = true;
     return true;
 }
@@ -71,7 +73,7 @@ void Game_Run(){
     }
 }
 void Game_End(){
-    
+    Text_DestroyTexture(&scoretext);
     TTF_CloseFont(main_font);
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
