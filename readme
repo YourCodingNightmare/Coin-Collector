@@ -1,6 +1,6 @@
 COIN COLLECTOR.
 
-> PROEJCT V0.4
+> PROEJCT V0.5
     THIS PROEJCT IS OPEN SOURCE, YOU CAN FEEL FREE TO MODIFY IT
     
     !FONT LICENSE -font/OFL.txt
@@ -19,7 +19,7 @@ COIN COLLECTOR.
     - MODIFY THE MAKEFILE -
 
     - LINUX -
-        gcc src/main.c src/Entity.c src/Text.c src/Game.c -Iinc -o bin/app.exe -lSDL2 -lSDL2_ttf
+        gcc src/main.c src/Entity.c src/Text.c src/Game.c src/Timer.c -Iinc -o bin/app.exe -lSDL2 -lSDL2_ttf
     
     - WINDOWS -
-        gcc src/main.c src/Entity.c src/Text.c src/Game.c -Iinc -o bin/app.exe -I<where sdl2 include> -L<where SDL2 lib> -lSDL2 -lSDL2_ttf
+        gcc src/main.c src/Entity.c src/Text.c src/Game.c src/Timer.c -Iinc -o bin/app.exe -I<where sdl2 include> -L<where SDL2 lib> -lSDL2 -lSDL2_ttf
