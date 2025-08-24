@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "Entity.h"
 #include "Text.h"
+#include "Timer.h"
 
 SDL_Renderer* renderer = NULL;
 SDL_Window* window = NULL;
@@ -15,6 +16,14 @@ Entity player;
 Entity coin;
 int coins;
 Text CoinsStat;
+
+Timer countdown;
+Text countdownText;
+int timeLeft;
+
+Text gameoverText;
+Text finalScore;
+Text restartText;
 
 bool Game_Init(){
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -61,7 +70,14 @@ bool Game_Init(){
     coins = 0;
     Text_Init(renderer, main_font, &CoinsStat, "Coins: %d", coins);
     
+    countdown = Timer_Start(5);
+    timeLeft = Timer_Left(&countdown);
+    Text_Init(renderer, main_font, &countdownText, "Time Left: %d", timeLeft);
     isRunning = true;
+
+    Text_Init(renderer, main_font, &gameoverText, "Game Over!");
+    Text_Init(renderer, main_font, &finalScore, "Final Coins: %d", coins);
+    Text_Init(renderer, main_font, &restartText, "Press SPACE to restart");
     return true;
 }
 void Game_Run(){
@@ -86,25 +102,54 @@ void Game_GetInput(){
         if (event.type == SDL_QUIT){
             isRunning = 0;
         }
+        if (event.type == SDL_KEYDOWN){
+            if (event.key.keysym.sym == SDLK_SPACE){
+                if (timeLeft <= 0){
+                    coins = 0;
+                    Text_Modify(renderer, main_font, &CoinsStat, "Coins: %d", coins);
+                    player.body.x = 320;
+                    player.body.y = 240;
+                    
+                    coin.body.x = rand() % (640-20);
+                    coin.body.y = rand() % (480-20);
+                    countdown = Timer_Start(60);
+                    timeLeft = Timer_Left(&countdown);
+                }
+            }
+        }
     }
     Entity_MoveBy_UIN(&player, 5, 640, 480);
-}
-void Game_Update(){
-    if (SDL_HasIntersection(&player.body, &coin.body)){
-        coins++;
-        coin.body.x = rand() % (640-20);
-        coin.body.y = rand() % (480-20);
-
-        Text_Modify(renderer, main_font, &CoinsStat, "Coins: %d", coins);
-    }
     
 }
+void Game_Update(){
+    if (timeLeft > 0){
+        timeLeft = Timer_Left(&countdown);
+        Text_Modify(renderer, main_font, &countdownText, "Time Left: %d", timeLeft);
+        if (SDL_HasIntersection(&player.body, &coin.body)){
+            coins++;
+            coin.body.x = rand() % (640-20);
+            coin.body.y = rand() % (480-20);
+
+            Text_Modify(renderer, main_font, &CoinsStat, "Coins: %d", coins);
+        }
+    }
+} 
 void Game_Render(){
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    Entity_Draw(renderer, &player, 0, 255, 0);
-    Entity_Draw(renderer, &coin, 255, 255, 0);
-    Text_Draw(renderer, &CoinsStat, 10, 10);
+    if (timeLeft > 0){
+        Entity_Draw(renderer, &player, 0, 255, 0);
+        Entity_Draw(renderer, &coin, 255, 255, 0);
+        Text_Draw(renderer, &CoinsStat, 10, 10);
+
+        Text_Draw(renderer, &countdownText, 370, 10);
+    } else {
+        Text_Draw(renderer, &gameoverText, 220, 160);
+        Text_Modify(renderer, main_font, &finalScore, "Final Coins: %d", coins);
+        Text_Draw(renderer, &finalScore, 180, 220);
+        Text_Draw(renderer, &restartText, 120, 280);
+    }
+    
     SDL_RenderPresent(renderer);
 }

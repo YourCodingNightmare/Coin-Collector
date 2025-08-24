@@ -5,6 +5,8 @@
         "sdl_ttf.h": "c",
         "stdarg.h": "c",
         "game.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "text.h": "c",
+        "timer.h": "c"
     }
 }
