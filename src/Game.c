@@ -70,7 +70,7 @@ bool Game_Init(){
     coins = 0;
     Text_Init(renderer, main_font, &CoinsStat, "Coins: %d", coins);
     
-    countdown = Timer_Start(5);
+    countdown = Timer_Start(60);
     timeLeft = Timer_Left(&countdown);
     Text_Init(renderer, main_font, &countdownText, "Time Left: %d", timeLeft);
     isRunning = true;
@@ -109,7 +109,7 @@ void Game_GetInput(){
                     Text_Modify(renderer, main_font, &CoinsStat, "Coins: %d", coins);
                     player.body.x = 320;
                     player.body.y = 240;
-                    
+
                     coin.body.x = rand() % (640-20);
                     coin.body.y = rand() % (480-20);
                     countdown = Timer_Start(60);
